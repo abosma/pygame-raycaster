@@ -3,8 +3,6 @@ import config
 
 from managers.entity_manager import EntityManager
 from managers.screen_manager import ScreenManager
-from entities.player import Player
-#from screen import Screen
 
 class Game():
     def __init__(self):
@@ -12,7 +10,6 @@ class Game():
         
         self.entity_manager = EntityManager()
         self.screen_manager = ScreenManager()
-        self.entity_manager.add_entity(Player())
 
         self.clock = pygame.time.Clock()
         self.fps = 60

@@ -1,7 +1,6 @@
 from config import SCREEN_HEIGHT, SCREEN_WIDTH
 from managers.manager import Manager
 
-
 class ScreenManager(Manager):
     def start(self):
         self.screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH), pygame.RESIZABLE)
