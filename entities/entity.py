@@ -11,3 +11,7 @@ class Entity(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def update(self, dt: float) -> None:
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def handle_message(self, message) -> None:
+        raise NotImplementedError
