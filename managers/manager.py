@@ -1,4 +1,5 @@
 import abc
+from messages.message import Message
 
 class Manager(metaclass=abc.ABCMeta):
     def __init__(self, message_bus):
@@ -14,5 +15,5 @@ class Manager(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def handle_message(self, message) -> None:
+    def handle_message(self, message: Message) -> None:
         raise NotImplementedError

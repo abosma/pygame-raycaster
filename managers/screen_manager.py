@@ -1,7 +1,7 @@
 import pygame
 from config import SCREEN_HEIGHT, SCREEN_WIDTH
 from managers.manager import Manager
-from messages.message_bus import MessageBus
+from messages.message import Message
 
 class ScreenManager(Manager):
     def start(self):
@@ -14,6 +14,6 @@ class ScreenManager(Manager):
             self.screen.blit(entity.surf, entity.rect)
         pygame.display.flip()
 
-    def handle_message(self, message):
+    def handle_message(self, message: Message):
         if message.message_type == "ADD_DRAWABLE_ENTITY":
             self.to_draw_entities.append(message.message_content)

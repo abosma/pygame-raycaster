@@ -20,7 +20,7 @@ class MessageBus():
         else:
             MessageBus.__instance = self
             
-        self.managers = []
+        self.managers: list[Manager] = []
     
     def subscribe(self, manager: Manager):
         if not self.managers.__contains__(manager):
