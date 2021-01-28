@@ -27,19 +27,11 @@ class Player(Entity):
             self.rect.move_ip(5, 0)
 
     def handle_message(self, message):
-        if message.message_type == "KB_PRESS_UP":
-            self.key_up_pressed = True
-        if message.message_type == "KB_PRESS_DOWN":
-            self.key_down_pressed = True
-        if message.message_type == "KB_PRESS_LEFT":
-            self.key_left_pressed = True
-        if message.message_type == "KB_PRESS_RIGHT":
-            self.key_right_pressed = True
-        if message.message_type == "KB_RELEASE_UP":
-            self.key_up_pressed = False
-        if message.message_type == "KB_RELEASE_DOWN":
-            self.key_down_pressed = False
-        if message.message_type == "KB_RELEASE_LEFT":
-            self.key_left_pressed = False
-        if message.message_type == "KB_RELEASE_RIGHT":
-            self.key_right_pressed = False
+        if message.message_type == "KB_PRESS_UP" or message.message_type == "KB_RELEASE_UP":
+            self.key_up_pressed = not self.key_up_pressed
+        if message.message_type == "KB_PRESS_DOWN" or message.message_type == "KB_RELEASE_DOWN":
+            self.key_down_pressed = not self.key_down_pressed
+        if message.message_type == "KB_PRESS_LEFT" or message.message_type == "KB_RELEASE_LEFT":
+            self.key_left_pressed = not self.key_left_pressed
+        if message.message_type == "KB_PRESS_RIGHT" or message.message_type == "KB_RELEASE_RIGHT":
+            self.key_right_pressed = not self.key_right_pressed

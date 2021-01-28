@@ -1,9 +1,7 @@
 import logging
-import os
 from managers.manager import Manager
 
-log = logging.getLogger(__name__)
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+log = logging.getLogger()
 
 class MessageBus():
     __instance = None

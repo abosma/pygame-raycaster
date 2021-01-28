@@ -6,4 +6,4 @@ class Message(metaclass=abc.ABCMeta):
         self.message_content = message_content
 
     def __str__(self):
-        return f'\nMessage Type: {self.message_type}\nMessage Content: {self.message_content}'
+        return f'Message Type: {self.message_type} | Message Content: {self.message_content}'

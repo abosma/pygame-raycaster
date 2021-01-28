@@ -8,13 +8,16 @@ class EntityManager(Manager):
     
     def update(self, dt: float):
         for entity in self.entity_list:
-            entity.update(dt)
-            
+            entity.update(dt) 
 
     def add_entity(self, entity: Entity):
         if not self.entity_list.__contains__(entity):
             self.entity_list.append(entity)
             self.message_bus.post_message(Message("ADD_DRAWABLE_ENTITY", entity))
+
+    def remove_entity(self, entity: Entity):
+        if self.entity_list.__contains__(entity):
+            self.entity_list.remove(entity)
 
     def get_entities(self):
         return self.entity_list
