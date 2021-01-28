@@ -6,7 +6,9 @@ The idea is that this will become a raycasting engine (see https://lodev.org/cgt
 
 ## Software used
 - Python 3.8.3
-- PyGame 2.0.1
+    - PyGame 2.0.1
+    - Colorama 0.4.4
+    - Coloredlogs 15.0
 
 ## Engine documentation
 Tell future me to write this once the engine actually works
