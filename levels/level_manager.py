@@ -1,5 +1,6 @@
 from managers.manager import Manager
 from messages.message import Message
+from entities.player import Player
 from pathlib import Path
 import logging
 
@@ -17,10 +18,13 @@ class LevelManager(Manager):
             self.load_level(message.message_content)
 
     def load_level(self, level: str):
-        level_name = level + ".yaml"
-        to_load_level = Path.cwd() / "levels" / "level_information" / level_name
+        self.message_bus.post_message(Message("ADD_ENTITY", Player()))
+
+        # TODO: Think about what the level format will be, and how loading should go.
+        # level_name = level + ".yaml"
+        # to_load_level = Path.cwd() / "levels" / "level_information" / level_name
         
-        try:
-            level_contents_text = open(to_load_level).read()
-        except:
-            log.error(f'Could not load level: {to_load_level}')
+        # try:
+        #     level_contents_text = open(to_load_level).read()
+        # except:
+        #     log.error(f'Could not load level: {to_load_level}')

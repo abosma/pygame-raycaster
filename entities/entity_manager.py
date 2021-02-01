@@ -1,3 +1,4 @@
+from pygame import time
 from managers.manager import Manager
 from entities.entity import Entity
 from messages.message import Message
@@ -8,12 +9,12 @@ class EntityManager(Manager):
     
     def update(self, dt: float):
         for entity in self.entity_list:
-            entity.update(dt) 
+            entity.update(dt)
+            self.message_bus.post_message(Message("DRAW_ENTITY", entity))
 
     def add_entity(self, entity: Entity):
         if not self.entity_list.__contains__(entity):
             self.entity_list.append(entity)
-            self.message_bus.post_message(Message("ADD_DRAWABLE_ENTITY", entity))
 
     def remove_entity(self, entity: Entity):
         if self.entity_list.__contains__(entity):
@@ -23,5 +24,8 @@ class EntityManager(Manager):
         return self.entity_list
 
     def handle_message(self, message: Message):
-        for entity in self.entity_list:
-            entity.handle_message(message)
+        if message.message_type == "ADD_ENTITY":
+            self.add_entity(message.message_content)
+        else:
+            for entity in self.entity_list:
+                entity.handle_message(message)

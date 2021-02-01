@@ -1,5 +1,6 @@
 import logging
 from managers.manager import Manager
+from messages.message import Message
 
 log = logging.getLogger()
 
@@ -24,7 +25,9 @@ class MessageBus():
         if not self.managers.__contains__(manager):
             self.managers.append(manager)
 
-    def post_message(self, message):
-        log.info(message)
+    def post_message(self, message: Message):
+        if "DRAW" not in message.message_type:
+            log.info(message)
+        
         for manager in self.managers:
             manager.handle_message(message)

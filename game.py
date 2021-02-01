@@ -1,3 +1,4 @@
+from managers.debug_manager import DebugManager
 import pygame
 
 from managers.manager import Manager
@@ -16,12 +17,14 @@ class Game(Manager):
         self.event_manager = EventManager(self.message_bus)
         self.entity_manager = EntityManager(self.message_bus)
         self.screen_manager = ScreenManager(self.message_bus)
+        self.debug_manager = DebugManager(self.message_bus)
 
         self.message_bus.subscribe(self)
         self.message_bus.subscribe(self.level_manager)
         self.message_bus.subscribe(self.event_manager)
         self.message_bus.subscribe(self.entity_manager)
         self.message_bus.subscribe(self.screen_manager)
+        self.message_bus.subscribe(self.debug_manager)
 
         self.message_bus.post_message(Message("LOAD_LEVEL", "level_one"))
 
@@ -33,11 +36,13 @@ class Game(Manager):
 
     def update(self):
         while(self.running):
+            fps = str(int(self.clock.get_fps()))
             delta_time = self.clock.tick(self.fps) / 1000
             
             self.event_manager.update(delta_time)
             self.entity_manager.update(delta_time)
             self.screen_manager.update(delta_time)
+            self.debug_manager.update(delta_time, fps)
 
     def handle_message(self, message : Message):
         if message.message_type == "QuitGame":

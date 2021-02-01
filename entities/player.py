@@ -8,6 +8,8 @@ class Player(Entity):
         self.surf.fill((255,255,255))
         self.rect = self.surf.get_rect()
 
+        self.speed = 500
+
         self.key_up_pressed = False
         self.key_down_pressed = False
         self.key_left_pressed = False
@@ -18,13 +20,13 @@ class Player(Entity):
 
     def update(self, dt: float):
         if self.key_up_pressed:
-            self.rect.move_ip(0, -5)
+            self.rect.move_ip(0, -self.speed * dt)
         if self.key_down_pressed:
-            self.rect.move_ip(0, 5)
+            self.rect.move_ip(0, self.speed * dt)
         if self.key_left_pressed:
-            self.rect.move_ip(-5, 0)
+            self.rect.move_ip(-self.speed * dt, 0)
         if self.key_right_pressed:
-            self.rect.move_ip(5, 0)
+            self.rect.move_ip(self.speed * dt, 0)
 
     def handle_message(self, message):
         if message.message_type == "KB_PRESS_UP" or message.message_type == "KB_RELEASE_UP":

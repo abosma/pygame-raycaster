@@ -7,7 +7,7 @@ class Manager(metaclass=abc.ABCMeta):
         self.start()
     
     @abc.abstractmethod
-    def start(self):
+    def start(self) -> None:
         raise NotImplementedError
 
     @abc.abstractmethod
