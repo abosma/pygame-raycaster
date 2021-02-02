@@ -2,26 +2,29 @@ import pygame
 from config import SCREEN_HEIGHT, SCREEN_WIDTH
 from managers.manager import Manager
 from messages.message import Message
+from components.renderer.entity_renderer import EntityRenderer
 
 class ScreenManager(Manager):
     def start(self):
         self.screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH), pygame.RESIZABLE)
-        self.to_draw_entities = []
+        self.to_draw_entities: list[EntityRenderer] = []
         self.to_draw_text = []
 
     def update(self, dt: float):
         self.screen.fill((0,0,0))
-        self.draw_text()
+        
         self.draw_entities()
+        self.draw_text()
+
         pygame.display.flip()
 
-    def draw_text(self):
+    def draw_entities(self):
         for entity in self.to_draw_entities:
             self.screen.blit(entity.surf, entity.rect)
         
         self.to_draw_entities.clear()
 
-    def draw_entities(self):
+    def draw_text(self):
         for text in self.to_draw_text:
             self.screen.blit(text, (10,0))
         

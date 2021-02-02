@@ -1,7 +1,7 @@
-from pygame import time
 from managers.manager import Manager
 from entities.entity import Entity
 from messages.message import Message
+from components.renderer.entity_renderer import EntityRenderer
 
 class EntityManager(Manager):
     def start(self):
@@ -10,7 +10,7 @@ class EntityManager(Manager):
     def update(self, dt: float):
         for entity in self.entity_list:
             entity.update(dt)
-            self.message_bus.post_message(Message("DRAW_ENTITY", entity))
+            self.message_bus.post_message(Message("DRAW_ENTITY", entity.get_component(EntityRenderer)))
 
     def add_entity(self, entity: Entity):
         if not self.entity_list.__contains__(entity):
