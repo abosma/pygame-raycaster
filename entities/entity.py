@@ -6,9 +6,10 @@ class Entity(metaclass=abc.ABCMeta):
         self.components: list[Component] = []
         self.start()
     
-    def add_component(self, component: Component):
+    def add_component(self, component: Component) -> Component:
         if component not in self.components:
             self.components.append(component)
+            return component
 
     def remove_component(self, component: Component):
         if component in self.components:
