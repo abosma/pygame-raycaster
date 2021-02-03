@@ -20,8 +20,12 @@ class LevelManager(Manager):
             self.load_level(message.message_content)
 
     def load_level(self, level: str):
-        self.message_bus.post_message(Message("ADD_ENTITY", Camera(self.message_bus, Vector2(250, 250))))
-        self.message_bus.post_message(Message("ADD_ENTITY", Player(self.message_bus, Vector2(250, 250))))
+        player_camera = Camera(self.message_bus, Vector2(250, 250))
+        player = Player(self.message_bus, Vector2(250, 250))
+
+        self.message_bus.post_message(Message("ADD_ENTITY", player_camera))
+        self.message_bus.post_message(Message("ADD_CAMERA", player_camera))
+        self.message_bus.post_message(Message("ADD_ENTITY", player))
 
         # TODO: Think about what the level format will be, and how loading should go.
         # level_name = level + ".yaml"
