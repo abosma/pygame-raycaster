@@ -10,7 +10,6 @@ class EntityManager(Manager):
     def update(self, dt: float):
         for entity in self.entity_list:
             entity.update(dt)
-            self.message_bus.post_message(Message("DRAW_ENTITY", entity.get_component(EntityRenderer)))
 
     def add_entity(self, entity: Entity):
         if not self.entity_list.__contains__(entity):

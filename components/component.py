@@ -4,6 +4,7 @@ import abc
 class Component(abc.ABC):
     def __init__(self, entity):
         self.entity = entity
+        self.message_bus = entity.message_bus
         self.start()
     
     @abc.abstractmethod

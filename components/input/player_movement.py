@@ -1,11 +1,10 @@
 from messages.message import Message
 from components.component import Component
-from components.renderer.entity_renderer import EntityRenderer
+from components.physics.transform import Transform
 
 class PlayerMovement(Component):
     def start(self):
-        self.player_renderer_component = self.entity.get_component(EntityRenderer)
-        self.player_rect = self.player_renderer_component.rect
+        self.player_transform : Transform = self.entity.get_component(Transform)
 
         self.speed = 500
 
@@ -16,13 +15,13 @@ class PlayerMovement(Component):
 
     def update(self, dt: float):
         if self.key_up_pressed:
-            self.player_rect.move_ip(0, -self.speed * dt)
+            self.player_transform.y -= self.speed * dt
         if self.key_down_pressed:
-            self.player_rect.move_ip(0, self.speed * dt)
+            self.player_transform.y += self.speed * dt
         if self.key_left_pressed:
-            self.player_rect.move_ip(-self.speed * dt, 0)
+            self.player_transform.x -= self.speed * dt
         if self.key_right_pressed:
-            self.player_rect.move_ip(self.speed * dt, 0)
+            self.player_transform.x += self.speed * dt
 
     def handle_message(self, message: Message):
         if message.message_type == "KB_PRESS_UP" or message.message_type == "KB_RELEASE_UP":

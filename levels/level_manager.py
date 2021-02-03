@@ -1,3 +1,5 @@
+from entities.camera import Camera
+from pygame.math import Vector2
 from managers.manager import Manager
 from messages.message import Message
 from entities.player import Player
@@ -18,7 +20,8 @@ class LevelManager(Manager):
             self.load_level(message.message_content)
 
     def load_level(self, level: str):
-        self.message_bus.post_message(Message("ADD_ENTITY", Player()))
+        self.message_bus.post_message(Message("ADD_ENTITY", Camera(self.message_bus, Vector2(250, 250))))
+        self.message_bus.post_message(Message("ADD_ENTITY", Player(self.message_bus, Vector2(250, 250))))
 
         # TODO: Think about what the level format will be, and how loading should go.
         # level_name = level + ".yaml"
