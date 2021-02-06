@@ -18,17 +18,11 @@ class ScreenManager(Manager):
     def update(self, dt: float):
         self.screen.fill((0,0,0))
         
-        self.draw_lines()
+        self.main_camera.calculate_and_draw_rays(self.screen)
         self.draw_entities()
         self.draw_text()
 
         pygame.display.flip()
-
-    def draw_lines(self):
-        for line in self.to_draw_lines:
-            draw.line(self.screen, line.colour, line.start_pos, line.end_pos, 1)
-
-        self.to_draw_lines.clear()
 
     def draw_entities(self):
         for renderer in self.to_draw_renderers:
@@ -50,8 +44,6 @@ class ScreenManager(Manager):
     def handle_message(self, message: Message):
         if message.message_type == "ADD_CAMERA":
             self.main_camera : MainCamera = message.message_content
-        if message.message_type == "DRAW_LINE":
-            self.to_draw_lines.append(message.message_content)
         if message.message_type == "DRAW_ENTITY":
             self.to_draw_renderers.append(message.message_content)
         if message.message_type == "DRAW_TEXT":

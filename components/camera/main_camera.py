@@ -1,5 +1,6 @@
 from pygame import Vector2
 from pygame import Color
+from pygame import draw
 from messages.message import Message
 from components.camera.line import Line
 from components.component import Component
@@ -19,17 +20,27 @@ class MainCamera(Component):
         self.plane_y = 0.66
 
         self.map: list[list[int]] = [
-            [1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,3,3,0,1],
-            [1,0,0,0,0,0,0,3,3,0,1],
-            [1,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,1],
-            [1,0,2,2,0,0,0,0,0,0,1],
-            [1,0,2,2,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1]
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         ]
 
         self.start()
@@ -37,10 +48,7 @@ class MainCamera(Component):
     def start(self):
         self.entity_transform : Transform = self.entity.get_component(Transform)
 
-    def update(self, dt: float):
-        self.calculate_ray()
-
-    def calculate_ray(self):
+    def calculate_and_draw_rays(self, screen):
         for x in range(self.width):
             self.hit = 0
             self.side = None
@@ -100,19 +108,29 @@ class MainCamera(Component):
             else:
                 self.perp_wall_dist = (self.map_y - self.entity.get_transform().y + (1 - self.step_y) / 2) / self.ray_dir_y
 
-
-            self.line_height = self.height / self.perp_wall_dist
+            try:
+                self.line_height = self.height / self.perp_wall_dist
+            except(ZeroDivisionError):
+                self.line_height = self.height
+            
             self.draw_start = -self.line_height / 2 + self.height / 2
             self.draw_end = self.line_height / 2 + self.height / 2
+            
             self.line_colour = self.get_wall_color(self.map_x, self.map_y)
+
+            if self.side == 1:
+                new_r = int(self.line_colour.r / 2)
+                new_g = int(self.line_colour.g / 2)
+                new_b = int(self.line_colour.b / 2)
+                self.line_colour = Color(new_r, new_g, new_b, 255)
+
             # Make sure the height is above 0 and below camera height
             if self.draw_start < 0:
                 self.draw_start = 0
             if self.draw_end > self.height:
                 self.draw_end = self.height - 1
 
-            to_draw_line = Line(Vector2(x, self.draw_start), Vector2(x, self.draw_end), self.line_colour)
-            self.message_bus.post_message(Message("DRAW_LINE", to_draw_line))
+            draw.line(screen, self.line_colour, Vector2(x, self.draw_start), Vector2(x, self.draw_end))
 
     def get_wall_color(self, map_x, map_y):
         if self.map[int(map_x)][int(map_y)] == 1:

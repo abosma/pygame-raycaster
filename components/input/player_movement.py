@@ -9,7 +9,7 @@ class PlayerMovement(Component):
         self.transform : Transform = self.entity.get_component(Transform)
         self.camera : MainCamera = self.entity.get_component(MainCamera)
 
-        self.move_speed = 1
+        self.move_speed = 3
         self.rotation_speed = 0.05
 
         self.key_up_pressed = False
