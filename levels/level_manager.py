@@ -1,4 +1,5 @@
 from entities.entity import Entity
+from components.camera.main_camera import MainCamera
 from pygame.math import Vector2
 from managers.manager import Manager
 from messages.message import Message
@@ -21,9 +22,9 @@ class LevelManager(Manager):
 
     def load_level(self, level: str):
         player : Entity = Player(self.message_bus, Vector2(5, 5))
-
+        
         self.message_bus.post_message(Message("ADD_ENTITY", player))
-        self.message_bus.post_message(Message("ADD_CAMERA", player.get_component(Camera)))
+        self.message_bus.post_message(Message("ADD_CAMERA", player.get_component(MainCamera)))
 
         level_name = level + ".json"
         to_load_level = Path.cwd() / "levels" / "level_information" / level_name
