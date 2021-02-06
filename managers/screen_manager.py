@@ -1,4 +1,5 @@
 import pygame
+from pygame import draw
 from pygame import Rect
 from pygame.surface import Surface
 from config import SCREEN_HEIGHT, SCREEN_WIDTH
@@ -12,14 +13,22 @@ class ScreenManager(Manager):
         self.screen : Surface = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH), pygame.RESIZABLE)
         self.to_draw_renderers: list[EntityRenderer] = []
         self.to_draw_text = []
+        self.to_draw_lines = []
 
     def update(self, dt: float):
         self.screen.fill((0,0,0))
         
+        self.draw_lines()
         self.draw_entities()
         self.draw_text()
 
         pygame.display.flip()
+
+    def draw_lines(self):
+        for line in self.to_draw_lines:
+            draw.line(self.screen, line.colour, line.start_pos, line.end_pos, 1)
+
+        self.to_draw_lines.clear()
 
     def draw_entities(self):
         for renderer in self.to_draw_renderers:
@@ -40,7 +49,9 @@ class ScreenManager(Manager):
 
     def handle_message(self, message: Message):
         if message.message_type == "ADD_CAMERA":
-            self.main_camera : MainCamera = message.message_content.get_camera()
+            self.main_camera : MainCamera = message.message_content
+        if message.message_type == "DRAW_LINE":
+            self.to_draw_lines.append(message.message_content)
         if message.message_type == "DRAW_ENTITY":
             self.to_draw_renderers.append(message.message_content)
         if message.message_type == "DRAW_TEXT":

@@ -1,7 +1,19 @@
 from pygame import Vector2
 
 class Level():
-    def __init__(self, level_size : Vector2):
+    def __init__(self, level_size : Vector2 = Vector2(10, 10)):
         self.width = level_size.x
         self.height = level_size.y
-        self.map: list[list[int]] = [self.width, self.height]
+        self.map: list[list[int]] = [
+            [1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1]
+        ]
